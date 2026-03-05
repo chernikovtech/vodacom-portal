@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vodacom Enterprise Solutions Portal — Powered by Yango Tech</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --yango-red: #FC3F1D;
+  --yango-red-dark: #D93316;
+  --bg: #0D0D0D;
+  --surface: #1E1E1E;
+  --surface-hover: #262626;
+  --border: rgba(255,255,255,0.07);
+  --border-accent: rgba(252,63,29,0.3);
+  --t1: #FFFFFF;
+  --t2: #B0B0B0;
+  --t3: #8A8A8A;
+  --blue: #3B82F6;
+  --emerald: #10B981;
+  --amber: #F59E0B;
+  --purple: #A78BFA;
+  --cyan: #06B6D4;
+  --rose: #F43F5E;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; background: #0D0D0D !important; }
+body { font-family: 'DM Sans', sans-serif; background: #0D0D0D !important; color: var(--t1); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+body::before { content:''; position:fixed; inset:0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; }
+
+/* === NAV === */
+nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:1rem 3rem; display:flex; align-items:center; justify-content:space-between; background:rgba(13,13,13,0.95); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+.nav-brand { display:flex; align-items:center; gap:1.5rem; }
+.nav-brand .logo { font-family:'Space Mono',monospace; font-weight:700; font-size:1.1rem; color:var(--yango-red); }
+.nav-brand .div { width:1px; height:20px; background:var(--t3); }
+.nav-brand .partner { font-size:0.75rem; font-weight:500; color:var(--t2); letter-spacing:2px; text-transform:uppercase; }
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a { color:var(--t2); text-decoration:none; font-size:0.85rem; font-weight:500; transition:color 0.2s; }
+.nav-links a:hover { color:var(--t1); }
+.btn-red { background:var(--yango-red); color:white; padding:0.7rem 1.6rem; border:none; border-radius:7px; font-size:0.88rem; font-weight:600; cursor:pointer; transition:all 0.2s; text-decoration:none; font-family:inherit; display:inline-block; }
+.btn-red:hover { background:var(--yango-red-dark); transform:translateY(-1px); box-shadow:0 8px 25px rgba(252,63,29,0.3); }
+.btn-ghost { background:transparent; color:var(--t1); padding:0.7rem 1.6rem; border:1px solid rgba(255,255,255,0.15); border-radius:7px; font-size:0.88rem; font-weight:500; cursor:pointer; transition:all 0.2s; text-decoration:none; font-family:inherit; display:inline-block; }
+.btn-ghost:hover { border-color:rgba(255,255,255,0.35); background:rgba(255,255,255,0.04); }
+
+/* === LAYOUT === */
+.wrap { max-width:1400px; margin:0 auto; padding:0 3rem; }
+section { background:#0D0D0D !important; padding:6rem 0; }
+section + section { border-top:1px solid var(--border); }
+.label { font-family:'Space Mono',monospace; font-size:0.7rem; font-weight:700; color:var(--yango-red); text-transform:uppercase; letter-spacing:3px; margin-bottom:1rem; }
+.stitle { font-size:2.8rem; font-weight:700; letter-spacing:-1.5px; line-height:1.12; margin-bottom:1rem; color:#FFFFFF; }
+.ssub { font-size:1.05rem; color:var(--t2); line-height:1.7; max-width:600px; }
+
+/* === HERO === */
+.hero { min-height:100vh; display:flex; align-items:center; background:#0D0D0D !important; padding-top:6rem; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:-30%; right:-20%; width:800px; height:800px; background:radial-gradient(circle,rgba(252,63,29,0.1) 0%,transparent 70%); pointer-events:none; }
+.hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+.hero-text { position:relative; z-index:2; }
+.hero-badge { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(252,63,29,0.1); border:1px solid rgba(252,63,29,0.2); padding:0.4rem 1rem; border-radius:100px; font-size:0.75rem; font-weight:600; color:var(--yango-red); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:2rem; }
+.hero-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--yango-red); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero h1 { font-size:3.6rem; font-weight:700; line-height:1.08; letter-spacing:-2px; margin-bottom:1.5rem; color:#FFFFFF; }
+.hero h1 .acc { color:var(--yango-red); }
+.hero-sub { font-size:1.12rem; color:#C0C0C0; line-height:1.7; max-width:520px; margin-bottom:2.5rem; }
+.hero-actions { display:flex; gap:1rem; flex-wrap:wrap; }
+
+/* Hero visual */
+.hero-visual { position:relative; z-index:2; }
+.portal-box { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:1.5rem; }
+.portal-box::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:16px 16px 0 0; background:linear-gradient(90deg,var(--yango-red),var(--blue),var(--emerald)); }
+.portal-box .dots { display:flex; gap:0.4rem; margin-bottom:1rem; padding-bottom:0.8rem; border-bottom:1px solid var(--border); }
+.portal-box .dot { width:8px; height:8px; border-radius:50%; }
+.dot.r { background:#ff5f56; } .dot.y { background:#ffbd2e; } .dot.g { background:#27c93f; }
+.portal-box .url { font-size:0.7rem; color:var(--t3); font-family:'Space Mono',monospace; margin-left:1rem; }
+.mod-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0.6rem; }
+.mod-item { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:0.8rem 0.5rem; text-align:center; transition:all 0.3s; }
+.mod-item:hover { border-color:var(--border-accent); background:rgba(252,63,29,0.04); }
+.mod-item .ic { font-size:1.2rem; margin-bottom:0.3rem; }
+.mod-item .lb { font-size:0.6rem; font-weight:600; color:var(--t2); text-transform:uppercase; letter-spacing:0.5px; }
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:0.6rem; margin-top:0.8rem; }
+.stat-box { background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.12); border-radius:8px; padding:0.5rem; text-align:center; }
+.stat-box .num { font-family:'Space Mono',monospace; font-size:0.95rem; font-weight:700; color:var(--emerald); }
+.stat-box .sl { font-size:0.55rem; color:var(--t3); text-transform:uppercase; letter-spacing:0.5px; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+
+/* === VALUE PROPS === */
+.val-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+.val-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:2rem; transition:all 0.3s; }
+.val-card:hover { border-color:rgba(255,255,255,0.1); transform:translateY(-3px); box-shadow:0 20px 50px rgba(0,0,0,0.3); }
+.val-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:1rem; }
+.val-card h3 { font-size:1.1rem; font-weight:600; margin-bottom:0.5rem; color:#FFFFFF; }
+.val-card p { font-size:0.88rem; color:var(--t2); line-height:1.6; }
+
+/* === SOLUTIONS === */
+.sol-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; margin-top:3rem; }
+.sol-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:2rem; transition:all 0.3s; position:relative; overflow:hidden; }
+.sol-card:hover { border-color:rgba(255,255,255,0.1); transform:translateY(-3px); box-shadow:0 20px 50px rgba(0,0,0,0.3); }
+.sol-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.2rem; }
+.sol-icon { width:50px; height:50px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; }
+.sol-tag { font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; padding:0.25rem 0.7rem; border-radius:100px; border:1px solid; }
+.sol-card h3 { font-size:1.25rem; font-weight:700; letter-spacing:-0.5px; margin-bottom:0.5rem; color:#FFFFFF; }
+.sol-card .desc { font-size:0.88rem; color:var(--t2); line-height:1.6; margin-bottom:1.2rem; }
+.feat-tags { display:flex; flex-wrap:wrap; gap:0.4rem; list-style:none; }
+.feat-tags li { font-size:0.72rem; color:var(--t2); background:rgba(255,255,255,0.04); padding:0.3rem 0.7rem; border-radius:5px; border:1px solid var(--border); }
+.sol-cases { margin-top:1.2rem; padding-top:1.2rem; border-top:1px solid var(--border); }
+.sol-cases h4 { font-size:0.65rem; font-weight:600; color:var(--t3); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:0.6rem; }
+.case-item { display:flex; align-items:center; gap:0.5rem; font-size:0.82rem; color:var(--t2); margin-bottom:0.35rem; }
+.case-item::before { content:'→'; color:var(--yango-red); font-weight:700; }
+.sol-markets { margin-top:0.8rem; display:flex; align-items:center; gap:0.5rem; }
+.sol-markets span { font-size:0.65rem; color:var(--t3); text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+.flags { font-size:0.9rem; letter-spacing:2px; }
+
+/* === BUSINESS CASE === */
+.biz-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+.biz-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:2rem; text-align:center; }
+.biz-card .yr { font-family:'Space Mono',monospace; font-size:0.7rem; font-weight:700; color:var(--yango-red); text-transform:uppercase; letter-spacing:2px; margin-bottom:0.8rem; }
+.biz-card .rev { font-family:'Space Mono',monospace; font-size:2rem; font-weight:700; color:#FFFFFF; margin-bottom:0.3rem; }
+.biz-card .sub { font-size:0.8rem; color:var(--t3); margin-bottom:1.5rem; }
+.biz-row { display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border); }
+.biz-row .k { font-size:0.8rem; color:var(--t2); }
+.biz-row .v { font-size:0.8rem; font-weight:600; color:#FFFFFF; font-family:'Space Mono',monospace; }
+
+/* === HOW IT WORKS === */
+.how-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; margin-top:3rem; position:relative; }
+.how-grid::before { content:''; position:absolute; top:28px; left:60px; right:60px; height:1px; background:linear-gradient(90deg,transparent,var(--yango-red),var(--blue),var(--emerald),transparent); opacity:0.3; }
+.how-step { text-align:center; }
+.step-num { width:44px; height:44px; border-radius:50%; background:var(--surface); border:2px solid var(--yango-red); display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:700; font-size:0.9rem; color:var(--yango-red); margin:0 auto 1rem; position:relative; z-index:2; }
+.how-step h3 { font-size:0.95rem; font-weight:600; margin-bottom:0.4rem; color:#FFFFFF; }
+.how-step p { font-size:0.82rem; color:var(--t2); line-height:1.55; }
+
+/* === PRICING === */
+.price-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+.price-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:2.2rem 1.8rem; position:relative; transition:all 0.3s; }
+.price-card.feat { border-color:var(--yango-red); box-shadow:0 0 50px rgba(252,63,29,0.08); }
+.price-card.feat::before { content:'Recommended'; position:absolute; top:-11px; left:50%; transform:translateX(-50%); background:var(--yango-red); color:white; font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:0.25rem 0.9rem; border-radius:100px; }
+.price-card:hover { transform:translateY(-3px); box-shadow:0 20px 50px rgba(0,0,0,0.3); }
+.price-tier { font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--t3); margin-bottom:0.4rem; }
+.price-name { font-size:1.3rem; font-weight:700; color:#FFFFFF; margin-bottom:0.4rem; }
+.price-desc { font-size:0.82rem; color:var(--t2); line-height:1.5; margin-bottom:1.2rem; min-height:36px; }
+.price-model { font-family:'Space Mono',monospace; font-size:1.2rem; font-weight:700; color:var(--yango-red); margin-bottom:0.2rem; }
+.price-note { font-size:0.72rem; color:var(--t3); margin-bottom:1.5rem; }
+.price-list { list-style:none; margin-bottom:1.5rem; }
+.price-list li { font-size:0.82rem; color:var(--t2); padding:0.45rem 0; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:0.5rem; }
+.price-list li::before { content:'✓'; color:var(--emerald); font-weight:700; font-size:0.75rem; }
+.price-btn { width:100%; padding:0.8rem; border-radius:7px; font-size:0.88rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:inherit; text-align:center; border:none; }
+.price-btn.filled { background:var(--yango-red); color:white; }
+.price-btn.filled:hover { background:var(--yango-red-dark); }
+.price-btn.outlined { background:transparent; color:var(--t1); border:1px solid rgba(255,255,255,0.15); }
+.price-btn.outlined:hover { border-color:rgba(255,255,255,0.3); }
+
+/* === COMPETITIVE === */
+.comp-table { width:100%; border-collapse:collapse; margin-top:2rem; font-size:0.78rem; }
+.comp-table th, .comp-table td { padding:0.6rem 0.8rem; border-bottom:1px solid var(--border); text-align:left; }
+.comp-table thead th { font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--t3); background:rgba(255,255,255,0.02); }
+.comp-table thead th:last-child { color:var(--yango-red); }
+.comp-table td { color:var(--t2); }
+.comp-table td:first-child { color:var(--t1); font-weight:500; }
+.comp-table td:last-child { color:var(--emerald); font-weight:600; }
+.comp-table .check { color:var(--emerald); } .comp-table .miss { color:var(--t3); }
+.comp-note { font-size:0.75rem; color:var(--t3); margin-top:1.5rem; font-style:italic; }
+
+/* === CTA === */
+.cta-box { background:linear-gradient(135deg,rgba(252,63,29,0.08),rgba(59,130,246,0.05)); border:1px solid var(--border-accent); border-radius:18px; padding:3.5rem; text-align:center; position:relative; overflow:hidden; }
+.cta-box h2 { font-size:2.2rem; font-weight:700; letter-spacing:-1px; margin-bottom:0.8rem; color:#FFFFFF; }
+.cta-box p { font-size:1rem; color:var(--t2); max-width:500px; margin:0 auto 2rem; line-height:1.6; }
+.cta-actions { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+
+/* === FOOTER === */
+footer { background:#0D0D0D !important; padding:3rem; text-align:center; border-top:1px solid var(--border); }
+.foot-logos { display:flex; align-items:center; justify-content:center; gap:2rem; margin-bottom:1rem; }
+.foot-logos span { font-family:'Space Mono',monospace; font-weight:700; font-size:0.85rem; }
+.foot-logos .yl { color:var(--yango-red); } .foot-logos .vl { color:#E60000; } .foot-logos .x { color:var(--t3); font-size:0.7rem; }
+footer p { font-size:0.75rem; color:var(--t3); }
+
+/* === RESPONSIVE === */
+@media (max-width:1024px) {
+  .hero-grid { grid-template-columns:1fr; }
+  .hero-visual { display:none; }
+  .hero h1 { font-size:2.6rem; }
+  .sol-grid,.biz-grid,.price-grid,.val-grid { grid-template-columns:1fr; }
+  .how-grid { grid-template-columns:repeat(2,1fr); }
+  .how-grid::before { display:none; }
+  .wrap { padding:0 1.5rem; }
+  section { padding:4rem 0; }
+  nav { padding:1rem 1.5rem; }
+  .nav-links { display:none; }
+  .stitle { font-size:2rem; }
+  .comp-table { display:block; overflow-x:auto; }
+}
+
+/* === ANIMATIONS === */
+.anim { opacity:0; transform:translateY(25px); transition:all 0.6s cubic-bezier(0.16,1,0.3,1); }
+.anim.vis { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+<div style="background:#0D0D0D;min-height:100vh;">
+
+<nav>
+  <div class="nav-brand">
+    <span class="logo">YANGO TECH</span>
+    <div class="div"></div>
+    <span class="partner">for Vodacom Business</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#solutions">Solutions</a></li>
+    <li><a href="#business-case">Business Case</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a href="#contact" class="btn-red">Request Demo</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="hero-badge">Enterprise Solutions Partnership</div>
+        <h1>A Full FinTech &amp; Digital Stack for <span class="acc">Vodacom's Enterprise Clients</span></h1>
+        <p class="hero-sub">8 modular technology platforms — from digital wallets and lending to corporate payments and agency banking — ready for Vodacom Business to package and sell to enterprise and government clients across Mozambique.</p>
+        <div class="hero-actions">
+          <a href="#solutions" class="btn-red">Explore 8 Modules</a>
+          <a href="/model" class="btn-ghost">Interactive Model →</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="portal-box">
+          <div class="dots">
+            <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            <span class="url">portal.vodacom.co.mz/enterprise</span>
+          </div>
+          <div class="mod-grid">
+            <div class="mod-item"><div class="ic">💳</div><div class="lb">Wallet</div></div>
+            <div class="mod-item"><div class="ic">🏦</div><div class="lb">Lending</div></div>
+            <div class="mod-item"><div class="ic">🏢</div><div class="lb">Corporate</div></div>
+            <div class="mod-item"><div class="ic">📱</div><div class="lb">POS</div></div>
+            <div class="mod-item"><div class="ic">🌍</div><div class="lb">Cross-Border</div></div>
+            <div class="mod-item"><div class="ic">💎</div><div class="lb">Cards</div></div>
+            <div class="mod-item"><div class="ic">🏪</div><div class="lb">Agent</div></div>
+            <div class="mod-item"><div class="ic">📊</div><div class="lb">SME Portal</div></div>
+          </div>
+          <div class="stats-row">
+            <div class="stat-box"><div class="num">8</div><div class="sl">Modules</div></div>
+            <div class="stat-box"><div class="num">14+</div><div class="sl">Markets</div></div>
+            <div class="stat-box"><div class="num">24%</div><div class="sl">Growth</div></div>
+            <div class="stat-box"><div class="num">VISA</div><div class="sl">Partner</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VALUE PROPS ============ -->
+<section class="anim">
+  <div class="wrap">
+    <div class="label">Why Partner</div>
+    <div class="stitle">Built for Vodacom's Enterprise Ambitions</div>
+    <p class="ssub">Extend your portfolio with battle-tested fintech and enterprise technology, already live across 14+ markets in Africa, MENA, and Asia.</p>
+    <div class="val-grid">
+      <div class="val-card">
+        <div class="val-icon" style="background:rgba(252,63,29,0.1)">💰</div>
+        <h3>Proven Revenue Model</h3>
+        <p>Transaction-fee based with clear 3-year projections. Corporate Portal alone targets $890K revenue by Year 3 with 87% net margins.</p>
+      </div>
+      <div class="val-card">
+        <div class="val-icon" style="background:rgba(59,130,246,0.1)">⚡</div>
+        <h3>8 Ready-to-Deploy Modules</h3>
+        <p>From digital wallets to lending platforms — each module is production-proven. Mix and match per client. Deploy in weeks, not months.</p>
+      </div>
+      <div class="val-card">
+        <div class="val-icon" style="background:rgba(16,185,129,0.1)">🌍</div>
+        <h3>Africa-First Architecture</h3>
+        <p>Built for mobile money, M-Pesa, and local payment rails. Portuguese localization. Active in Mozambique, Tanzania, Senegal, Madagascar, and 10+ more.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOLUTIONS ============ -->
+<section id="solutions" class="anim">
+  <div class="wrap">
+    <div class="label">Solution Modules</div>
+    <div class="stitle">8 Enterprise-Grade Platforms</div>
+    <p class="ssub">Each module deploys independently or combines into tailored solutions. All proven in production across emerging markets.</p>
+
+    <div class="sol-grid">
+      <!-- 1: Lending -->
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon" style="background:rgba(252,63,29,0.1)">🏦</div>
+          <span class="sol-tag" style="color:var(--yango-red);border-color:rgba(252,63,29,0.3)">Core</span>
+        </div>
+        <h3>Lending / Loan Management System</h3>
+        <p class="desc">End-to-end digital lending — from application and risk scoring to disbursement and collections. Supports multiple loan products on one platform.</p>
+        <ul class="feat-tags">
+          <li>Risk Engine & Scoring</li><li>SME Lending</li><li>Micro/Nano Loans</li><li>B2B BNPL</li><li>Inventory Financing</li><li>Overdrafts</li><li>Portfolio Mgmt</li><li>Collections</li>
+        </ul>
+        <div class="sol-cases">
+          <h4>Enterprise Use Cases</h4>
+          <div class="case-item">Banks launching digital lending products</div>
+          <div class="case-item">MFIs automating loan origination at scale</div>
+          <div class="case-item">Retailers offering inventory financing to suppliers</div>
+        </div>
+        <div class="sol-markets"><span>Live in</span><span class="flags">🇲🇿🇿🇦🇹🇿🇸🇳🇨🇮🇿🇲🇲🇬🇲🇱🇧🇼🇨🇲🇰🇪🇺🇬🇳🇪🇦🇪🇸🇦</span></div>
+      </div>
+
+      <!-- 2: Corporate Portal -->
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon" style="background:rgba(59,130,246,0.1)">🏢</div>
+          <span class="sol-tag" style="color:var(--blue);border-color:rgba(59,130,246,0.3)">Core</span>
+        </div>
+        <h3>Corporate Portal for SME & Enterprise</h3>
+        <p class="desc">Centralized platform to manage payments, payroll, employee expenses, invoicing, and financial operations at scale. Maker/checker workflows built in.</p>
+        <ul class="feat-tags">
+          <li>Bulk Disbursements</li><li>Scheduled/Recurring</li><li>Maker/Checker</li><li>Bill Payments</li><li>Payroll & Salary Advance</li><li>Working Capital Loans</li><li>Expense Mgmt</li><li>Payment Links</li><li>Invoices</li>
+        </ul>
+        <div class="sol-cases">
+          <h4>Enterprise Use Cases</h4>
+          <div class="case-item">Corporates consolidating payments across MoMo, bank, and cards</div>
+          <div class="case-item">Enterprises managing payroll disbursements for 1000+ employees</div>
+          <div class="case-item">SMEs collecting via QR, payment links, and hosted checkout</div>
+        </div>
+        <div class="sol-markets"><span>Live in</span><span class="flags">🇹🇿🇸🇳🇲🇬🇹🇬</span></div>
+      </div>
+
+      <!-- 3: Digital Wallet -->
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon" style="background:rgba(16,185,129,0.1)">💳</div>
+          <span class="sol-tag" style="color:var(--emerald);border-color:rgba(16,185,129,0.3)">Core</span>
+        </div>
+        <h3>Digital Wallet / Consumer App</h3>
+        <p class="desc">Comprehensive digital wallet for payments, transfers, and everyday financial services. Super-app architecture with mini-apps ecosystem.</p>
+        <ul class="feat-tags">
+          <li>P2P On/OffNet</li><li>Bill Payments</li><li>Airtime & Bundles</li><li>QR Payments</li><li>Virtual/Physical Cards</li><li>Credit Cards</li><li>Cash-In/Out</li><li>Int'l Transfers</li><li>Mini Apps</li>
+        </ul>
+        <div class="sol-cases">
+          <h4>Enterprise Use Cases</h4>
+          <div class="case-item">Telcos launching branded consumer wallet</div>
+          <div class="case-item">Banks offering white-label digital banking</div>
+          <div class="case-item">Retailers embedding payment acceptance</div>
+        </div>
+        <div class="sol-markets"><span>Live in</span><span class="flags">🇹🇿🇸🇳🇲🇬🇹🇬🇰🇲🇦🇪</span></div>
+      </div>
+
+      <!-- 4: Omnichannel Payments -->
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon" style="background:rgba(245,158,11,0.1)">📱</div>
+          <span class="sol-tag" style="color:var(--amber);border-color:rgba(245,158,11,0.3)">Core</span>
+        </div>
+        <h3>Omnichannel Payments & POS</h3>
+        <p class="desc">Full acquiring stack — cards, mobile money, QR, bank transfers, and payment links. Includes modern POS hardware management and SME onboarding.</p>
+        <ul class="feat-tags">
+          <li>Soft POS (Tap to Phone)</li><li>Hard POS Terminals</li><li>Payment Gateway</li><li>E-commerce Checkout</li><li>QR Standees</li><li>Device Lifecycle Mgmt</li><li>Expense Cards</li><li>Invoicing</li><li>ERP Integration</li>
+        </ul>
+        <div class="sol-cases">
+          <h4>Enterprise Use Cases</h4>
+          <div class="case-item">Retailers accepting all payment types from one terminal</div>
+          <div class="case-item">SMEs getting Tap-to-Phone without hardware investment</div>
+          <div class="case-item">Chains rolling out unified POS across locations</div>
+        </div>
+        <div class="sol-markets"><span>Live in</span><span class="flags">🇹🇿🇸🇳🇲🇬🇹🇬</span></div>
+      </div>
+
+      <!-- 5: Cross-Border -->
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon" style="background:rgba(167,139,250,0.1)">🌍</div>
+          <span class="sol-tag" style="color:var(--purple);border-color:rgba(167,139,250,0.3)">Core</span>
+        </div>
+        <h3>Cross-Border Payments & Remittance</h3>
+        <p class="desc">Secure international transfers with full compliance, covering both B2C remittances and B2B cross-border transactions. Integrated with TerraPay, Onafriq, and Thunes.</p>
+        <ul class="feat-tags">
+          <li>B2C Remittance</li><li>B2B Cross-Border</li><li>20+ Corridors</li><li>WAEMU Interop</li><li>Real-time Tracking</li><li>Multi-currency</li>
+        </ul>
+        <div class="sol-cases">
+          <h4>Enterprise Use Cases</h4>
+          <div class="case-item">Banks offering digital remittance to diaspora</div>
+          <div class="case-item">Corporates paying international suppliers</div>
+          <div class="case-item">SMEs receiving cross-border payments</div>
+        </div>
+        <div class="sol-markets"><span>20+ corridors across</span><span class="flags">🇲🇿🇿🇦🇹🇿🇰🇪🇺🇬🇦🇪🇸🇦</span></div>
+      </div>
+
+      <!-- 6: Card Issuing -->
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon" style="background:rgba(6,182,212,0.1)">💎</div>
+          <span class="sol-tag" style="color:var(--cyan);border-color:rgba(6,182,212,0.3)">Core</span>
+        </div>
+        <h3>Card Lifecycle Management & Issuing</h3>
+        <p class="desc">Full card issuing platform — debit, credit, prepaid, virtual, and physical. VISA principal license. End-to-end from design and manufacturing to fraud management.</p>
+        <ul class="feat-tags">
+          <li>Debit & Credit Cards</li><li>Physical & Virtual</li><li>VISA Partnership</li><li>Card Controls</li><li>Chargeback Mgmt</li><li>Anti-fraud</li><li>Card Design & Mfg</li><li>Issuing Processor</li>
+        </ul>
+        <div class="sol-cases">
+          <h4>Enterprise Use Cases</h4>
+          <div class="case-item">Banks issuing branded debit/credit cards</div>
+          <div class="case-item">Fintechs launching virtual card products</div>
+          <div class="case-item">Corporates issuing expense cards to employees</div>
+        </div>
+        <div class="sol-markets"><span>Live in</span><span class="flags">🇹🇿🇸🇳🇲🇬🇹🇬🇰🇲🇦🇪</span></div>
+      </div>
+
+      <!-- 7: Agency Banking -->
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon" style="background:rgba(244,63,94,0.1)">🏪</div>
+          <span class="sol-tag" style="color:var(--rose);border-color:rgba(244,63,94,0.3)">Add-on</span>
+        </div>
+        <h3>Agency Banking Network</h3>
+        <p class="desc">Digital platform for agent onboarding, transactions, liquidity management, and performance tracking. Enables last-mile financial inclusion.</p>
+        <ul class="feat-tags">
+          <li>Cash-In / Cash-Out</li><li>Bill Payments</li><li>Airtime & Bundles</li><li>Agent-to-Agent Transfer</li><li>Float/Overdraft</li><li>Commission Tracking</li><li>Performance Dashboard</li><li>Low Balance Alerts</li>
+        </ul>
+        <div class="sol-cases">
+          <h4>Enterprise Use Cases</h4>
+          <div class="case-item">Banks extending reach to unbanked via agent networks</div>
+          <div class="case-item">Telcos converting airtime agents into financial service points</div>
+          <div class="case-item">MFIs building last-mile cash-in/cash-out infrastructure</div>
+        </div>
+        <div class="sol-markets"><span>Live in</span><span class="flags">🇹🇿🇲🇬🇹🇬</span></div>
+      </div>
+
+      <!-- 8: SME App -->
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon" style="background:rgba(245,158,11,0.1)">📊</div>
+          <span class="sol-tag" style="color:var(--amber);border-color:rgba(245,158,11,0.3)">Add-on</span>
+        </div>
+        <h3>SME App & Business Portal</h3>
+        <p class="desc">Easy-to-use financial app for small businesses to manage payments, collections, bills, and cash flow. Onboarding with KYB, QR/till payments, and analytics.</p>
+        <ul class="feat-tags">
+          <li>KYB Onboarding</li><li>QR & Till Payments</li><li>Request to Pay</li><li>P2P On/OffNet</li><li>Int'l Transfers</li><li>Bill Payments</li><li>POS (Soft/Hard)</li><li>Merchant Mgmt</li><li>Reconciliation</li>
+        </ul>
+        <div class="sol-cases">
+          <h4>Enterprise Use Cases</h4>
+          <div class="case-item">Banks offering digital SME banking bundle</div>
+          <div class="case-item">Telcos monetizing their SME merchant base</div>
+          <div class="case-item">Distributors digitizing B2B order payments</div>
+        </div>
+        <div class="sol-markets"><span>Live in</span><span class="flags">🇸🇳🇹🇬🇰🇲🇦🇪🇸🇦🇲🇬🇹🇿🇰🇪</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUSINESS CASE ============ -->
+<section id="business-case" class="anim">
+  <div class="wrap">
+    <div class="label">Revenue Opportunity</div>
+    <div class="stitle">Corporate Portal — 3-Year Business Case</div>
+    <p class="ssub">Illustrative projections based on the Corporate Portal module alone. Full platform revenue is multiples of this.</p>
+
+    <div class="biz-grid">
+      <div class="biz-card">
+        <div class="yr">Year 1</div>
+        <div class="rev">$156K</div>
+        <div class="sub">Net Revenue</div>
+        <div class="biz-row"><span class="k">Active Corporates</span><span class="v">289</span></div>
+        <div class="biz-row"><span class="k">Gross Revenue</span><span class="v">$156,060</span></div>
+        <div class="biz-row"><span class="k">Collections Rev</span><span class="v">$115,600</span></div>
+        <div class="biz-row"><span class="k">Disbursement Rev</span><span class="v">$40,460</span></div>
+        <div class="biz-row"><span class="k">Total Costs</span><span class="v">$20,500</span></div>
+        <div class="biz-row"><span class="k">Net Margin</span><span class="v" style="color:var(--emerald)">$135,560</span></div>
+      </div>
+      <div class="biz-card" style="border-color:var(--yango-red)">
+        <div class="yr">Year 2</div>
+        <div class="rev">$508K</div>
+        <div class="sub">Net Revenue</div>
+        <div class="biz-row"><span class="k">Active Corporates</span><span class="v">671</span></div>
+        <div class="biz-row"><span class="k">Gross Revenue</span><span class="v">$508,283</span></div>
+        <div class="biz-row"><span class="k">Collections Rev</span><span class="v">$402,600</span></div>
+        <div class="biz-row"><span class="k">Disbursement Rev</span><span class="v">$105,683</span></div>
+        <div class="biz-row"><span class="k">Total Costs</span><span class="v">$67,765</span></div>
+        <div class="biz-row"><span class="k">Net Margin</span><span class="v" style="color:var(--emerald)">$440,518</span></div>
+      </div>
+      <div class="biz-card">
+        <div class="yr">Year 3</div>
+        <div class="rev">$890K</div>
+        <div class="sub">Net Revenue</div>
+        <div class="biz-row"><span class="k">Active Corporates</span><span class="v">1,017</span></div>
+        <div class="biz-row"><span class="k">Gross Revenue</span><span class="v">$889,875</span></div>
+        <div class="biz-row"><span class="k">Collections Rev</span><span class="v">$711,900</span></div>
+        <div class="biz-row"><span class="k">Disbursement Rev</span><span class="v">$177,975</span></div>
+        <div class="biz-row"><span class="k">Total Costs</span><span class="v">$112,871</span></div>
+        <div class="biz-row"><span class="k">Net Margin</span><span class="v" style="color:var(--emerald)">$777,004</span></div>
+      </div>
+    </div>
+
+    <p class="comp-note">Pricing: 1% on collections, 0.35% on disbursements. Costs include marketing, sales incentives (6% commission), and partner fees. Corporate Portal module only — additional modules generate incremental revenue.</p>
+    <div style="margin-top:1.5rem;"><a href="/model" class="btn-red" style="font-size:0.85rem;">Open Interactive Financial Model →</a></div>
+  </div>
+</section>
+
+<!-- ============ COMPETITIVE ============ -->
+<section class="anim">
+  <div class="wrap">
+    <div class="label">Competitive Edge</div>
+    <div class="stitle">Feature Comparison: Corporate Portal</div>
+    <p class="ssub">How Yango Tech's Corporate Portal compares to existing solutions in market.</p>
+
+    <table class="comp-table">
+      <thead>
+        <tr><th>Capability</th><th>Moov Money</th><th>Coris Money</th><th>Ecobank</th><th>Semoa</th><th>Yango Tech</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Mobile Money</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="miss">—</td><td class="check">✓</td></tr>
+        <tr><td>Bank Account</td><td class="miss">—</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Card Payments</td><td class="miss">—</td><td class="miss">—</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Payment Links</td><td class="miss">—</td><td class="miss">—</td><td class="miss">—</td><td class="miss">—</td><td class="check">✓</td></tr>
+        <tr><td>Invoices</td><td class="miss">—</td><td class="check">✓</td><td class="check">✓</td><td class="miss">—</td><td class="check">✓</td></tr>
+        <tr><td>Hosted Checkout</td><td class="miss">—</td><td class="miss">—</td><td class="check">✓</td><td class="miss">—</td><td class="check">✓</td></tr>
+        <tr><td>Recurring Payments</td><td class="miss">—</td><td class="check">✓</td><td class="miss">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Recipient Management</td><td class="miss">—</td><td class="check">✓</td><td class="miss">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Working Capital Loans</td><td class="miss">—</td><td class="miss">—</td><td class="miss">—</td><td class="miss">—</td><td class="check">✓</td></tr>
+        <tr><td>Payroll & Salary Advance</td><td class="miss">—</td><td class="miss">—</td><td class="miss">—</td><td class="miss">—</td><td class="check">✓</td></tr>
+        <tr><td>Expense Management</td><td class="miss">—</td><td class="miss">—</td><td class="miss">—</td><td class="miss">—</td><td class="check">✓</td></tr>
+        <tr><td>Cash Management</td><td class="miss">—</td><td class="miss">—</td><td class="miss">—</td><td class="miss">—</td><td class="check">✓</td></tr>
+      </tbody>
+    </table>
+    <p class="comp-note">Yango Tech is the only platform offering all payment methods, value-added services (lending, payroll, expense management), and omnichannel collection in a single portal.</p>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how" class="anim">
+  <div class="wrap">
+    <div class="label">Partnership Model</div>
+    <div class="stitle">How the Portal Works</div>
+    <p class="ssub">From client need to live deployment — designed for Vodacom's enterprise sales motion.</p>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="step-num">01</div>
+        <h3>Client Discovery</h3>
+        <p>Vodacom identifies enterprise or gov client need. Use the solution catalog to scope the opportunity.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">02</div>
+        <h3>Configure & Quote</h3>
+        <p>Select modules, configure per-client parameters, and generate a co-branded proposal via the portal.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">03</div>
+        <h3>Deploy & Integrate</h3>
+        <p>Yango Tech handles deployment, integration with client systems, and local-language configuration.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">04</div>
+        <h3>Manage & Scale</h3>
+        <p>Ongoing support, monitoring, and feature updates. Client dashboard for usage analytics and billing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" class="anim">
+  <div class="wrap">
+    <div class="label">Commercial Model</div>
+    <div class="stitle">Flexible Engagement Tiers</div>
+    <p class="ssub">Transaction-fee revenue sharing aligned with Vodacom's enterprise sales cycle.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-tier">Tier 1</div>
+        <div class="price-name">Starter</div>
+        <div class="price-desc">Single module for one enterprise client.</div>
+        <div class="price-model">Per-module license</div>
+        <div class="price-note">Monthly SaaS fee + implementation</div>
+        <ul class="price-list">
+          <li>1 solution module</li>
+          <li>Standard configuration</li>
+          <li>Portuguese localization</li>
+          <li>Email & ticket support</li>
+          <li>Monthly analytics report</li>
+          <li>99.5% uptime SLA</li>
+        </ul>
+        <button class="price-btn outlined">Get Quote</button>
+      </div>
+      <div class="price-card feat">
+        <div class="price-tier">Tier 2</div>
+        <div class="price-name">Enterprise</div>
+        <div class="price-desc">Multi-module bundle for strategic accounts.</div>
+        <div class="price-model">Revenue share + license</div>
+        <div class="price-note">1% collections / 0.35% disbursements</div>
+        <ul class="price-list">
+          <li>Up to 4 solution modules</li>
+          <li>Custom integrations</li>
+          <li>Co-branded client portal</li>
+          <li>Dedicated success manager</li>
+          <li>Real-time analytics dashboard</li>
+          <li>99.9% uptime SLA</li>
+          <li>Priority 4h response</li>
+        </ul>
+        <button class="price-btn filled">Request Demo</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Tier 3</div>
+        <div class="price-name">Government</div>
+        <div class="price-desc">Full-stack for public sector mandates.</div>
+        <div class="price-model">Project + SaaS</div>
+        <div class="price-note">Milestone payments + ongoing fees</div>
+        <ul class="price-list">
+          <li>All 8 solution modules</li>
+          <li>On-premise or sovereign cloud</li>
+          <li>Data residency compliance</li>
+          <li>Dedicated engineering team</li>
+          <li>Ministerial reporting suite</li>
+          <li>99.99% uptime SLA</li>
+          <li>Embedded support team</li>
+        </ul>
+        <button class="price-btn outlined">Contact Team</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section id="contact" class="anim">
+  <div class="wrap">
+    <div class="cta-box">
+      <h2>Ready to Expand Your Enterprise Portfolio?</h2>
+      <p>Schedule a joint workshop to map your pipeline to our 8 solution modules and model the revenue opportunity.</p>
+      <div class="cta-actions">
+        <a href="mailto:enterprise@yangotech.com" class="btn-red">Schedule Workshop</a>
+        <a href="/model" class="btn-ghost">Open Financial Model →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-logos">
+    <span class="yl">YANGO TECH</span>
+    <span class="x">×</span>
+    <span class="vl">VODACOM BUSINESS</span>
+  </div>
+  <p>Enterprise Solutions Portal — Confidential Partnership Materials — 2026</p>
+</footer>
+
+</div>
+
+<script>
+const obs = new IntersectionObserver(e => e.forEach(el => { if(el.isIntersecting) el.target.classList.add('vis'); }), { threshold:0.08 });
+document.querySelectorAll('.anim').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

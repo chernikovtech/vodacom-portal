@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vodacom × Yango Tech — Financial Model</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0D0D0D;
+  --surface: #161616;
+  --card: #1A1A1A;
+  --card-alt: #1E1E1E;
+  --border: rgba(255,255,255,0.07);
+  --border-focus: rgba(252,63,29,0.5);
+  --red: #FC3F1D;
+  --red-dark: #D93316;
+  --t1: #FFFFFF;
+  --t2: #B0B0B0;
+  --t3: #8A8A8A;
+  --green: #10B981;
+  --green-bg: rgba(16,185,129,0.08);
+  --green-border: rgba(16,185,129,0.15);
+  --blue: #3B82F6;
+  --amber: #F59E0B;
+  --red-soft: rgba(252,63,29,0.08);
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { background:#0D0D0D !important; font-size:16px; scroll-behavior:smooth; }
+body { font-family:'DM Sans',sans-serif; background:#0D0D0D !important; color:var(--t1); -webkit-font-smoothing:antialiased; min-height:100vh; }
+
+/* === NAV === */
+.topbar { position:sticky; top:0; z-index:100; background:rgba(13,13,13,0.95); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); padding:0.8rem 2rem; display:flex; align-items:center; justify-content:space-between; }
+.topbar .brand { display:flex; align-items:center; gap:1rem; }
+.topbar .logo { font-family:'Space Mono',monospace; font-weight:700; font-size:0.95rem; color:var(--red); }
+.topbar .sep { width:1px; height:18px; background:var(--t3); }
+.topbar .sub { font-size:0.7rem; font-weight:500; color:var(--t2); letter-spacing:1.5px; text-transform:uppercase; }
+.topbar .back { color:var(--t2); text-decoration:none; font-size:0.82rem; font-weight:500; transition:color 0.2s; display:flex; align-items:center; gap:0.4rem; }
+.topbar .back:hover { color:var(--t1); }
+
+/* === LAYOUT === */
+.page { max-width:1200px; margin:0 auto; padding:2.5rem 2rem 4rem; }
+
+.page-header { margin-bottom:2.5rem; }
+.page-header .label { font-family:'Space Mono',monospace; font-size:0.65rem; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:3px; margin-bottom:0.6rem; }
+.page-header h1 { font-size:2rem; font-weight:700; letter-spacing:-1px; color:#FFFFFF; margin-bottom:0.5rem; }
+.page-header p { font-size:0.92rem; color:var(--t2); line-height:1.6; max-width:650px; }
+
+/* === ASSUMPTIONS PANEL === */
+.assumptions { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.8rem; margin-bottom:2rem; }
+.assumptions h2 { font-size:1rem; font-weight:600; color:#FFFFFF; margin-bottom:0.3rem; }
+.assumptions .hint { font-size:0.78rem; color:var(--t3); margin-bottom:1.2rem; }
+.input-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:1rem; }
+.input-group { display:flex; flex-direction:column; gap:0.3rem; }
+.input-group label { font-size:0.7rem; font-weight:600; color:var(--t3); text-transform:uppercase; letter-spacing:1px; }
+.input-group input, .input-group select {
+  background:var(--bg); border:1px solid var(--border); border-radius:7px; padding:0.55rem 0.7rem;
+  font-family:'Space Mono',monospace; font-size:0.85rem; color:var(--t1); outline:none; transition:border-color 0.2s;
+}
+.input-group input:focus, .input-group select:focus { border-color:var(--border-focus); }
+.input-group input::placeholder { color:var(--t3); }
+.input-group .unit { font-size:0.65rem; color:var(--t3); margin-top:0.15rem; }
+
+/* === KPI ROW === */
+.kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
+.kpi { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.2rem 1.4rem; transition:all 0.3s; }
+.kpi:hover { border-color:rgba(255,255,255,0.12); }
+.kpi .kpi-label { font-size:0.65rem; font-weight:600; color:var(--t3); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:0.4rem; }
+.kpi .kpi-val { font-family:'Space Mono',monospace; font-size:1.6rem; font-weight:700; color:#FFFFFF; }
+.kpi .kpi-sub { font-size:0.72rem; color:var(--t3); margin-top:0.2rem; }
+.kpi.green .kpi-val { color:var(--green); }
+.kpi.red-accent .kpi-val { color:var(--red); }
+
+/* === TABLE === */
+.table-section { margin-bottom:2rem; }
+.table-section h2 { font-size:1rem; font-weight:600; color:#FFFFFF; margin-bottom:0.8rem; display:flex; align-items:center; gap:0.5rem; }
+.table-section h2 .dot { width:8px; height:8px; border-radius:50%; }
+
+.sheet { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+.sheet thead th {
+  background:var(--card-alt); font-size:0.65rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:1.2px; color:var(--t3); padding:0.7rem 1rem; text-align:right; border-bottom:1px solid var(--border);
+}
+.sheet thead th:first-child { text-align:left; }
+.sheet tbody td {
+  padding:0.6rem 1rem; font-size:0.82rem; color:var(--t2); text-align:right;
+  border-bottom:1px solid var(--border); font-family:'Space Mono',monospace; font-size:0.78rem;
+}
+.sheet tbody td:first-child { text-align:left; font-family:'DM Sans',sans-serif; font-size:0.82rem; color:var(--t1); font-weight:500; }
+.sheet tbody tr:last-child td { border-bottom:none; }
+.sheet tbody tr.subtotal td { border-top:2px solid var(--border); font-weight:700; color:#FFFFFF; }
+.sheet tbody tr.highlight td { background:var(--green-bg); color:var(--green); font-weight:700; }
+.sheet tbody tr.section-head td { font-weight:600; color:var(--t3); font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; padding-top:1rem; font-family:'DM Sans',sans-serif; }
+.sheet tbody tr:hover td { background:rgba(255,255,255,0.02); }
+.sheet .indent { padding-left:1.8rem; }
+
+/* === CHART === */
+.chart-container { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.8rem; margin-bottom:2rem; }
+.chart-container h2 { font-size:1rem; font-weight:600; color:#FFFFFF; margin-bottom:1.2rem; }
+.chart-area { position:relative; height:260px; display:flex; align-items:flex-end; gap:0; padding:0 0.5rem; }
+.chart-group { flex:1; display:flex; flex-direction:column; align-items:center; gap:0.3rem; }
+.bars { display:flex; align-items:flex-end; gap:4px; height:200px; }
+.bar { width:28px; border-radius:4px 4px 0 0; transition:all 0.5s cubic-bezier(0.16,1,0.3,1); position:relative; min-height:2px; cursor:default; }
+.bar:hover { filter:brightness(1.2); }
+.bar .tooltip { position:absolute; bottom:100%; left:50%; transform:translateX(-50%); background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:0.3rem 0.5rem; font-family:'Space Mono',monospace; font-size:0.65rem; color:var(--t1); white-space:nowrap; opacity:0; pointer-events:none; transition:opacity 0.2s; margin-bottom:4px; }
+.bar:hover .tooltip { opacity:1; }
+.bar.rev { background:var(--red); }
+.bar.cost { background:var(--blue); }
+.bar.margin { background:var(--green); }
+.chart-label { font-size:0.72rem; color:var(--t3); font-weight:600; margin-top:0.5rem; }
+.chart-legend { display:flex; gap:1.5rem; margin-top:1rem; justify-content:center; }
+.legend-item { display:flex; align-items:center; gap:0.4rem; font-size:0.72rem; color:var(--t2); }
+.legend-dot { width:10px; height:10px; border-radius:3px; }
+
+/* === FOOTER === */
+.model-footer { text-align:center; padding:2rem 0; border-top:1px solid var(--border); margin-top:2rem; }
+.model-footer p { font-size:0.75rem; color:var(--t3); }
+
+/* === RESPONSIVE === */
+@media (max-width:768px) {
+  .kpi-row { grid-template-columns:repeat(2,1fr); }
+  .input-grid { grid-template-columns:1fr; }
+  .page { padding:1.5rem 1rem 3rem; }
+  .page-header h1 { font-size:1.5rem; }
+  .sheet { font-size:0.72rem; }
+  .bars .bar { width:18px; }
+  .topbar { padding:0.8rem 1rem; }
+}
+</style>
+</head>
+<body>
+<div style="background:#0D0D0D;min-height:100vh;">
+
+<div class="topbar">
+  <div class="brand">
+    <span class="logo">YANGO TECH</span>
+    <div class="sep"></div>
+    <span class="sub">Financial Model</span>
+  </div>
+  <a href="/" class="back">← Back to Portal</a>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="label">Interactive Model</div>
+    <h1>Corporate Portal — Revenue & P&L Projection</h1>
+    <p>Adjust assumptions below to model the revenue opportunity for Vodacom Business. All calculations update in real time. Based on transaction-fee economics from the Corporate Portal module.</p>
+  </div>
+
+  <!-- Assumptions -->
+  <div class="assumptions">
+    <h2>Model Assumptions</h2>
+    <div class="hint">Edit any input to recalculate the full P&L instantly</div>
+    <div class="input-grid">
+      <div class="input-group">
+        <label>Yr 1 Active Corporates</label>
+        <input type="number" id="y1_corps" value="289" min="0" step="10">
+      </div>
+      <div class="input-group">
+        <label>Yr 2 Active Corporates</label>
+        <input type="number" id="y2_corps" value="671" min="0" step="10">
+      </div>
+      <div class="input-group">
+        <label>Yr 3 Active Corporates</label>
+        <input type="number" id="y3_corps" value="1017" min="0" step="10">
+      </div>
+      <div class="input-group">
+        <label>Collection Fee Rate</label>
+        <input type="number" id="coll_rate" value="1.0" min="0" max="5" step="0.1">
+        <span class="unit">% of transaction value</span>
+      </div>
+      <div class="input-group">
+        <label>Disbursement Fee Rate</label>
+        <input type="number" id="disb_rate" value="0.35" min="0" max="5" step="0.05">
+        <span class="unit">% of transaction value</span>
+      </div>
+      <div class="input-group">
+        <label>Yr 1 Coll. Value / Corp</label>
+        <input type="number" id="y1_coll_val" value="40000" min="0" step="1000">
+        <span class="unit">$ annual txn value</span>
+      </div>
+      <div class="input-group">
+        <label>Yr 2 Coll. Value / Corp</label>
+        <input type="number" id="y2_coll_val" value="60000" min="0" step="1000">
+        <span class="unit">$ annual txn value</span>
+      </div>
+      <div class="input-group">
+        <label>Yr 3 Coll. Value / Corp</label>
+        <input type="number" id="y3_coll_val" value="70000" min="0" step="1000">
+        <span class="unit">$ annual txn value</span>
+      </div>
+      <div class="input-group">
+        <label>Yr 1 Disb. Value / Corp</label>
+        <input type="number" id="y1_disb_val" value="40000" min="0" step="1000">
+        <span class="unit">$ annual txn value</span>
+      </div>
+      <div class="input-group">
+        <label>Yr 2 Disb. Value / Corp</label>
+        <input type="number" id="y2_disb_val" value="45000" min="0" step="1000">
+        <span class="unit">$ annual txn value</span>
+      </div>
+      <div class="input-group">
+        <label>Yr 3 Disb. Value / Corp</label>
+        <input type="number" id="y3_disb_val" value="50000" min="0" step="1000">
+        <span class="unit">$ annual txn value</span>
+      </div>
+      <div class="input-group">
+        <label>Sales Commission Rate</label>
+        <input type="number" id="sales_comm" value="6" min="0" max="20" step="0.5">
+        <span class="unit">% of revenue</span>
+      </div>
+      <div class="input-group">
+        <label>Yr 1 Marketing Budget</label>
+        <input type="number" id="y1_mktg" value="10500" min="0" step="500">
+        <span class="unit">$ (incl. launch event)</span>
+      </div>
+      <div class="input-group">
+        <label>Yr 2-3 Marketing Budget</label>
+        <input type="number" id="y23_mktg" value="5000" min="0" step="500">
+        <span class="unit">$ per year</span>
+      </div>
+      <div class="input-group">
+        <label>Partner Fee Rate (Yr 2+)</label>
+        <input type="number" id="partner_rate" value="0.1" min="0" max="2" step="0.01">
+        <span class="unit">% of off-us disbursement value</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi red-accent">
+      <div class="kpi-label">3-Year Cumulative Revenue</div>
+      <div class="kpi-val" id="kpi_total_rev">—</div>
+      <div class="kpi-sub">All collections + disbursements</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">3-Year Net Margin</div>
+      <div class="kpi-val" id="kpi_total_margin">—</div>
+      <div class="kpi-sub" id="kpi_margin_pct">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Year 3 ARPU</div>
+      <div class="kpi-val" id="kpi_arpu">—</div>
+      <div class="kpi-sub">Revenue per active corporate</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Year 3 Active Corporates</div>
+      <div class="kpi-val" id="kpi_corps">—</div>
+      <div class="kpi-sub">Cumulative clients</div>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-container">
+    <h2>Revenue vs. Costs vs. Net Margin</h2>
+    <div class="chart-area" id="chart"></div>
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Revenue</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Costs</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Net Margin</div>
+    </div>
+  </div>
+
+  <!-- P&L Table -->
+  <div class="table-section">
+    <h2><span class="dot" style="background:var(--red)"></span> Full P&L Breakdown</h2>
+    <table class="sheet">
+      <thead>
+        <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
+      </thead>
+      <tbody id="pnl-body"></tbody>
+    </table>
+  </div>
+
+  <!-- Collections Detail -->
+  <div class="table-section">
+    <h2><span class="dot" style="background:var(--green)"></span> Collections Detail</h2>
+    <table class="sheet">
+      <thead>
+        <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
+      </thead>
+      <tbody id="coll-body"></tbody>
+    </table>
+  </div>
+
+  <!-- Disbursements Detail -->
+  <div class="table-section">
+    <h2><span class="dot" style="background:var(--blue)"></span> Disbursements Detail</h2>
+    <table class="sheet">
+      <thead>
+        <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
+      </thead>
+      <tbody id="disb-body"></tbody>
+    </table>
+  </div>
+
+  <!-- Cost Breakdown -->
+  <div class="table-section">
+    <h2><span class="dot" style="background:var(--amber)"></span> Cost Breakdown</h2>
+    <table class="sheet">
+      <thead>
+        <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
+      </thead>
+      <tbody id="cost-body"></tbody>
+    </table>
+  </div>
+
+  <div class="model-footer">
+    <p>Yango Tech × Vodacom Business — Confidential Financial Model — 2026<br>Figures are illustrative projections for the Corporate Portal module. Actual results will vary based on market conditions and execution.</p>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// MODEL ENGINE
+// ============================================================
+const $ = id => document.getElementById(id);
+const v = id => parseFloat($(id).value) || 0;
+const fmt = n => {
+  if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+  if (Math.abs(n) >= 1e3) return '$' + Math.round(n).toLocaleString('en-US');
+  return '$' + n.toFixed(0);
+};
+const fmtK = n => {
+  if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+  if (Math.abs(n) >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+  return '$' + n.toFixed(0);
+};
+const fmtN = n => Math.round(n).toLocaleString('en-US');
+const fmtP = n => n.toFixed(1) + '%';
+
+function compute() {
+  // Read inputs
+  const corps = [v('y1_corps'), v('y2_corps'), v('y3_corps')];
+  const collRate = v('coll_rate') / 100;
+  const disbRate = v('disb_rate') / 100;
+  const collVal = [v('y1_coll_val'), v('y2_coll_val'), v('y3_coll_val')];
+  const disbVal = [v('y1_disb_val'), v('y2_disb_val'), v('y3_disb_val')];
+  const salesComm = v('sales_comm') / 100;
+  const y1Mktg = v('y1_mktg');
+  const y23Mktg = v('y23_mktg');
+  const partnerRate = v('partner_rate') / 100;
+
+  const years = [0, 1, 2]; // index
+  const data = years.map(i => {
+    // Collections
+    const totalCollVal = corps[i] * collVal[i];
+    const collRev = totalCollVal * collRate;
+
+    // Disbursements
+    const totalDisbVal = corps[i] * disbVal[i];
+    const disbRev = totalDisbVal * disbRate;
+
+    // Total Revenue
+    const totalRev = collRev + disbRev;
+
+    // ARPU
+    const arpu = corps[i] > 0 ? totalRev / corps[i] : 0;
+
+    // Costs
+    const mktg = i === 0 ? y1Mktg : y23Mktg;
+    const salesInc = totalRev * salesComm;
+    const partnerFees = i === 0 ? 0 : totalDisbVal * partnerRate;
+    const totalCosts = mktg + salesInc + partnerFees;
+
+    // Net Margin
+    const netMargin = totalRev - totalCosts;
+    const marginPct = totalRev > 0 ? (netMargin / totalRev) * 100 : 0;
+
+    return {
+      corps: corps[i], collVal: collVal[i], disbVal: disbVal[i],
+      totalCollVal, collRev, totalDisbVal, disbRev,
+      totalRev, arpu, mktg, salesInc, partnerFees, totalCosts,
+      netMargin, marginPct
+    };
+  });
+
+  // === KPIs ===
+  const totalRev3 = data.reduce((s, d) => s + d.totalRev, 0);
+  const totalMargin3 = data.reduce((s, d) => s + d.netMargin, 0);
+  const totalCosts3 = data.reduce((s, d) => s + d.totalCosts, 0);
+  const marginPct3 = totalRev3 > 0 ? (totalMargin3 / totalRev3) * 100 : 0;
+
+  $('kpi_total_rev').textContent = fmtK(totalRev3);
+  $('kpi_total_margin').textContent = fmtK(totalMargin3);
+  $('kpi_margin_pct').textContent = fmtP(marginPct3) + ' average margin';
+  $('kpi_arpu').textContent = fmt(data[2].arpu);
+  $('kpi_corps').textContent = fmtN(data[2].corps);
+
+  // === P&L TABLE ===
+  $('pnl-body').innerHTML = tableRows([
+    { label: 'Active Corporates', vals: data.map(d => fmtN(d.corps)) },
+    { label: '', vals: ['','',''], cls: 'section-head', raw: 'Revenue' },
+    { label: 'Collections Revenue', vals: data.map(d => fmt(d.collRev)), cls: 'indent' },
+    { label: 'Disbursements Revenue', vals: data.map(d => fmt(d.disbRev)), cls: 'indent' },
+    { label: 'Total Revenue', vals: data.map(d => fmt(d.totalRev)), cls: 'subtotal' },
+    { label: '', vals: ['','',''], cls: 'section-head', raw: 'Costs' },
+    { label: 'Marketing', vals: data.map(d => fmt(d.mktg)), cls: 'indent' },
+    { label: 'Sales Incentives', vals: data.map(d => fmt(d.salesInc)), cls: 'indent' },
+    { label: 'Partner Fees', vals: data.map(d => fmt(d.partnerFees)), cls: 'indent' },
+    { label: 'Total Costs', vals: data.map(d => fmt(d.totalCosts)), cls: 'subtotal' },
+    { label: '', vals: ['','',''], cls: 'section-head', raw: '' },
+    { label: 'Net Margin', vals: data.map(d => fmt(d.netMargin)), cls: 'highlight' },
+    { label: 'Margin %', vals: data.map(d => fmtP(d.marginPct)), cls: 'highlight' },
+    { label: 'ARPU', vals: data.map(d => fmt(d.arpu)) },
+  ]);
+
+  // === COLLECTIONS TABLE ===
+  $('coll-body').innerHTML = tableRows([
+    { label: 'Active Corporates', vals: data.map(d => fmtN(d.corps)) },
+    { label: 'Annual Txn Value / Corp', vals: data.map(d => fmt(d.collVal)) },
+    { label: 'Total Annual Txn Value', vals: data.map(d => fmt(d.totalCollVal)) },
+    { label: 'Fee Rate', vals: data.map(() => fmtP(collRate * 100)) },
+    { label: 'Collections Revenue', vals: data.map(d => fmt(d.collRev)), cls: 'subtotal' },
+  ]);
+
+  // === DISBURSEMENTS TABLE ===
+  $('disb-body').innerHTML = tableRows([
+    { label: 'Active Corporates', vals: data.map(d => fmtN(d.corps)) },
+    { label: 'Annual Txn Value / Corp', vals: data.map(d => fmt(d.disbVal)) },
+    { label: 'Total Annual Txn Value', vals: data.map(d => fmt(d.totalDisbVal)) },
+    { label: 'Fee Rate', vals: data.map(() => fmtP(disbRate * 100)) },
+    { label: 'Disbursements Revenue', vals: data.map(d => fmt(d.disbRev)), cls: 'subtotal' },
+  ]);
+
+  // === COSTS TABLE ===
+  $('cost-body').innerHTML = tableRows([
+    { label: 'Marketing', vals: data.map(d => fmt(d.mktg)) },
+    { label: 'Sales Incentives (' + fmtP(salesComm * 100) + ' of rev)', vals: data.map(d => fmt(d.salesInc)) },
+    { label: 'Partner Fees (' + fmtP(partnerRate * 100) + ' off-us disb, Yr2+)', vals: data.map(d => fmt(d.partnerFees)) },
+    { label: 'Total Costs', vals: data.map(d => fmt(d.totalCosts)), cls: 'subtotal' },
+    { label: 'Cost as % of Revenue', vals: data.map(d => d.totalRev > 0 ? fmtP((d.totalCosts / d.totalRev) * 100) : '—') },
+  ]);
+
+  // === CHART ===
+  renderChart(data);
+}
+
+function tableRows(rows) {
+  return rows.map(r => {
+    const cls = r.cls || '';
+    const label = r.raw !== undefined && r.raw !== '' ? r.raw : r.label;
+    const indentCls = cls === 'indent' ? ' class="indent"' : '';
+    return `<tr class="${cls}"><td${indentCls}>${label}</td>${r.vals.map(v => `<td>${v}</td>`).join('')}</tr>`;
+  }).join('');
+}
+
+function renderChart(data) {
+  const maxVal = Math.max(...data.map(d => d.totalRev));
+  const scale = maxVal > 0 ? 190 / maxVal : 0;
+  const chart = $('chart');
+
+  chart.innerHTML = data.map((d, i) => `
+    <div class="chart-group">
+      <div class="bars">
+        <div class="bar rev" style="height:${Math.max(2, d.totalRev * scale)}px">
+          <div class="tooltip">${fmtK(d.totalRev)}</div>
+        </div>
+        <div class="bar cost" style="height:${Math.max(2, d.totalCosts * scale)}px">
+          <div class="tooltip">${fmtK(d.totalCosts)}</div>
+        </div>
+        <div class="bar margin" style="height:${Math.max(2, Math.max(0, d.netMargin) * scale)}px">
+          <div class="tooltip">${fmtK(d.netMargin)}</div>
+        </div>
+      </div>
+      <div class="chart-label">Year ${i + 1}</div>
+    </div>
+  `).join('');
+}
+
+// === BIND ALL INPUTS ===
+document.querySelectorAll('.assumptions input').forEach(inp => {
+  inp.addEventListener('input', compute);
+});
+
+// Initial computation
+compute();
+</script>
+</body>
+</html>
