@@ -474,9 +474,16 @@ function renderChart(data) {
 }
 
 // === BIND ALL INPUTS ===
-document.querySelectorAll('.assumptions input').forEach(inp => {
+// Use both 'input' and 'change' events for full browser compatibility
+// (spinner arrows, paste, keyboard, mobile)
+document.querySelectorAll('.assumptions input, .assumptions select').forEach(inp => {
   inp.addEventListener('input', compute);
+  inp.addEventListener('change', compute);
 });
+
+// Also use event delegation as a safety net
+document.querySelector('.assumptions').addEventListener('input', compute);
+document.querySelector('.assumptions').addEventListener('change', compute);
 
 // Initial computation
 compute();
