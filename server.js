@@ -20,6 +20,12 @@ app.get('/model', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'vodacom-model.html'));
 });
 
+// Serve client portal mock at /portal
+app.get('/portal', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache');
+  res.sendFile(path.join(__dirname, 'public', 'client-portal.html'));
+});
+
 // Static files with no-cache for HTML
 app.use(express.static('public', {
   setHeaders(res, filePath) {
