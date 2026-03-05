@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Portal — Vodacom Business × Yango Tech</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #FC3F1D;
+  --red-dark: #D93316;
+  --bg: #0D0D0D;
+  --surface: #161616;
+  --card: #1A1A1A;
+  --card-alt: #1E1E1E;
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(255,255,255,0.14);
+  --t1: #FFFFFF;
+  --t2: #B0B0B0;
+  --t3: #8A8A8A;
+  --green: #10B981;
+  --green-bg: rgba(16,185,129,0.08);
+  --green-border: rgba(16,185,129,0.15);
+  --blue: #3B82F6;
+  --blue-bg: rgba(59,130,246,0.08);
+  --amber: #F59E0B;
+  --amber-bg: rgba(245,158,11,0.08);
+  --purple: #A78BFA;
+  --purple-bg: rgba(167,139,250,0.08);
+  --cyan: #06B6D4;
+  --rose: #F43F5E;
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { background:var(--bg) !important; font-size:16px; }
+body { font-family:'DM Sans',sans-serif; background:var(--bg) !important; color:var(--t1); -webkit-font-smoothing:antialiased; min-height:100vh; }
+
+/* === TOP BAR === */
+.topbar { position:sticky; top:0; z-index:100; background:rgba(13,13,13,0.95); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); padding:0.8rem 2rem; display:flex; align-items:center; justify-content:space-between; }
+.topbar .brand { display:flex; align-items:center; gap:1rem; }
+.topbar .logo { font-family:'Space Mono',monospace; font-weight:700; font-size:0.95rem; color:var(--red); text-decoration:none; }
+.topbar .sep { width:1px; height:18px; background:var(--t3); }
+.topbar .sub { font-size:0.7rem; font-weight:500; color:var(--t2); letter-spacing:1.5px; text-transform:uppercase; }
+.topbar-right { display:flex; align-items:center; gap:1.5rem; }
+.topbar .back { color:var(--t2); text-decoration:none; font-size:0.82rem; font-weight:500; transition:color 0.2s; }
+.topbar .back:hover { color:var(--t1); }
+.demo-badge { font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--red); background:rgba(252,63,29,0.1); border:1px solid rgba(252,63,29,0.2); padding:0.25rem 0.7rem; border-radius:100px; }
+
+/* === LAYOUT === */
+.shell { display:flex; min-height:calc(100vh - 53px); }
+
+/* === SIDEBAR === */
+.sidebar { width:240px; background:var(--surface); border-right:1px solid var(--border); padding:1.5rem 0; flex-shrink:0; display:flex; flex-direction:column; }
+.sidebar-section { padding:0 1rem; margin-bottom:1.5rem; }
+.sidebar-section .sec-label { font-size:0.6rem; font-weight:700; color:var(--t3); text-transform:uppercase; letter-spacing:2px; margin-bottom:0.6rem; padding:0 0.5rem; }
+.sidebar-item { display:flex; align-items:center; gap:0.7rem; padding:0.55rem 0.8rem; border-radius:8px; font-size:0.82rem; color:var(--t2); cursor:pointer; transition:all 0.15s; text-decoration:none; margin-bottom:2px; }
+.sidebar-item:hover { background:rgba(255,255,255,0.04); color:var(--t1); }
+.sidebar-item.active { background:rgba(252,63,29,0.08); color:var(--red); font-weight:600; }
+.sidebar-item .icon { font-size:1rem; width:22px; text-align:center; }
+.sidebar-item .badge-count { margin-left:auto; font-size:0.65rem; font-weight:700; background:var(--red); color:white; padding:0.1rem 0.45rem; border-radius:100px; min-width:18px; text-align:center; }
+
+.sidebar-user { margin-top:auto; padding:1rem 1.5rem; border-top:1px solid var(--border); display:flex; align-items:center; gap:0.7rem; }
+.avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg, var(--red), var(--blue)); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; color:white; flex-shrink:0; }
+.sidebar-user .name { font-size:0.8rem; font-weight:600; color:var(--t1); }
+.sidebar-user .role { font-size:0.65rem; color:var(--t3); }
+
+/* === MAIN === */
+.main { flex:1; padding:2rem 2.5rem; overflow-y:auto; }
+
+.page-title { display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; }
+.page-title h1 { font-size:1.6rem; font-weight:700; letter-spacing:-0.5px; color:var(--t1); }
+.page-title .date { font-size:0.78rem; color:var(--t3); font-family:'Space Mono',monospace; }
+
+/* === ALERT BANNER === */
+.alert-banner { background:rgba(252,63,29,0.06); border:1px solid rgba(252,63,29,0.15); border-radius:10px; padding:0.8rem 1.2rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.8rem; font-size:0.82rem; color:var(--t2); }
+.alert-banner .alert-icon { font-size:1.1rem; }
+.alert-banner strong { color:var(--t1); font-weight:600; }
+.alert-banner .dismiss { margin-left:auto; color:var(--t3); cursor:pointer; font-size:1rem; line-height:1; }
+.alert-banner .dismiss:hover { color:var(--t1); }
+
+/* === KPI CARDS === */
+.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
+.kpi-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.2rem 1.4rem; transition:all 0.2s; }
+.kpi-card:hover { border-color:var(--border-hover); }
+.kpi-card .kpi-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.8rem; }
+.kpi-card .kpi-label { font-size:0.65rem; font-weight:600; color:var(--t3); text-transform:uppercase; letter-spacing:1.5px; }
+.kpi-card .kpi-icon { font-size:1.1rem; }
+.kpi-card .kpi-val { font-family:'Space Mono',monospace; font-size:1.5rem; font-weight:700; color:var(--t1); margin-bottom:0.3rem; }
+.kpi-card .kpi-change { font-size:0.72rem; display:flex; align-items:center; gap:0.3rem; }
+.kpi-card .kpi-change.up { color:var(--green); }
+.kpi-card .kpi-change.down { color:var(--rose); }
+
+/* === TWO COL === */
+.two-col { display:grid; grid-template-columns:1.4fr 1fr; gap:1.5rem; margin-bottom:2rem; }
+
+/* === TRANSACTIONS TABLE === */
+.panel { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+.panel-header { padding:1.2rem 1.4rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.panel-header h2 { font-size:0.95rem; font-weight:600; color:var(--t1); }
+.panel-header .view-all { font-size:0.72rem; color:var(--red); text-decoration:none; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
+.panel-header .view-all:hover { text-decoration:underline; }
+
+.txn-table { width:100%; border-collapse:collapse; }
+.txn-table th { font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:var(--t3); padding:0.6rem 1rem; text-align:left; background:var(--card-alt); }
+.txn-table th:last-child { text-align:right; }
+.txn-table td { padding:0.65rem 1rem; font-size:0.8rem; color:var(--t2); border-bottom:1px solid var(--border); }
+.txn-table tr:last-child td { border-bottom:none; }
+.txn-table td:last-child { text-align:right; font-family:'Space Mono',monospace; font-size:0.78rem; font-weight:600; }
+.txn-table .status { font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; padding:0.2rem 0.5rem; border-radius:100px; }
+.status.completed { color:var(--green); background:var(--green-bg); }
+.status.pending { color:var(--amber); background:var(--amber-bg); }
+.status.processing { color:var(--blue); background:var(--blue-bg); }
+.status.failed { color:var(--rose); background:rgba(244,63,94,0.08); }
+.txn-table .txn-desc { color:var(--t1); font-weight:500; }
+.txn-table .txn-id { font-size:0.65rem; color:var(--t3); font-family:'Space Mono',monospace; }
+
+/* === ACTIVITY FEED === */
+.activity-list { padding:0.5rem 0; }
+.activity-item { padding:0.7rem 1.4rem; display:flex; align-items:flex-start; gap:0.8rem; transition:background 0.15s; }
+.activity-item:hover { background:rgba(255,255,255,0.02); }
+.activity-dot { width:8px; height:8px; border-radius:50%; margin-top:0.35rem; flex-shrink:0; }
+.activity-item .act-text { font-size:0.8rem; color:var(--t2); line-height:1.5; }
+.activity-item .act-text strong { color:var(--t1); font-weight:600; }
+.activity-item .act-time { font-size:0.65rem; color:var(--t3); margin-top:0.15rem; font-family:'Space Mono',monospace; }
+
+/* === MODULES GRID === */
+.modules-section { margin-bottom:2rem; }
+.modules-section h2 { font-size:0.95rem; font-weight:600; color:var(--t1); margin-bottom:1rem; }
+.modules-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0.8rem; }
+.module-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1rem; text-align:center; transition:all 0.2s; cursor:pointer; position:relative; }
+.module-card:hover { border-color:var(--border-hover); transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,0,0,0.3); }
+.module-card .mod-icon { font-size:1.5rem; margin-bottom:0.5rem; }
+.module-card .mod-name { font-size:0.78rem; font-weight:600; color:var(--t1); margin-bottom:0.2rem; }
+.module-card .mod-status { font-size:0.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
+.mod-status.active { color:var(--green); }
+.mod-status.available { color:var(--t3); }
+.module-card .mod-active-dot { position:absolute; top:8px; right:8px; width:6px; height:6px; border-radius:50%; background:var(--green); }
+
+/* === QUICK ACTIONS === */
+.quick-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:0.8rem; margin-bottom:2rem; }
+.qa-btn { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1rem 1.2rem; display:flex; align-items:center; gap:0.8rem; cursor:pointer; transition:all 0.15s; text-decoration:none; }
+.qa-btn:hover { border-color:var(--border-hover); background:var(--card-alt); }
+.qa-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+.qa-btn .qa-label { font-size:0.82rem; font-weight:600; color:var(--t1); }
+.qa-btn .qa-desc { font-size:0.7rem; color:var(--t3); margin-top:0.1rem; }
+
+/* === CHART MINI === */
+.mini-chart { padding:1.2rem 1.4rem; }
+.mini-chart h3 { font-size:0.78rem; font-weight:600; color:var(--t1); margin-bottom:1rem; }
+.chart-bars { display:flex; align-items:flex-end; gap:6px; height:120px; padding-top:0.5rem; }
+.chart-bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:0.3rem; height:100%; justify-content:flex-end; }
+.chart-bar { width:100%; border-radius:3px 3px 0 0; transition:all 0.5s cubic-bezier(0.16,1,0.3,1); min-height:2px; }
+.chart-bar:hover { filter:brightness(1.3); }
+.chart-bar-label { font-size:0.55rem; color:var(--t3); font-weight:600; }
+.chart-total { text-align:center; margin-top:0.8rem; padding-top:0.8rem; border-top:1px solid var(--border); }
+.chart-total .ct-val { font-family:'Space Mono',monospace; font-size:1.1rem; font-weight:700; color:var(--t1); }
+.chart-total .ct-label { font-size:0.62rem; color:var(--t3); text-transform:uppercase; letter-spacing:1px; margin-top:0.1rem; }
+
+/* === FOOTER === */
+.portal-footer { padding:1.5rem 2.5rem; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.portal-footer p { font-size:0.7rem; color:var(--t3); }
+.portal-footer .foot-links { display:flex; gap:1.5rem; }
+.portal-footer .foot-links a { font-size:0.7rem; color:var(--t3); text-decoration:none; transition:color 0.2s; }
+.portal-footer .foot-links a:hover { color:var(--t2); }
+
+/* === RESPONSIVE === */
+@media (max-width:1024px) {
+  .sidebar { display:none; }
+  .kpi-grid { grid-template-columns:repeat(2,1fr); }
+  .two-col { grid-template-columns:1fr; }
+  .modules-grid { grid-template-columns:repeat(2,1fr); }
+  .quick-actions { grid-template-columns:1fr; }
+  .main { padding:1.5rem 1rem; }
+  .topbar { padding:0.8rem 1rem; }
+}
+@media (max-width:600px) {
+  .kpi-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <a href="/" class="logo">YANGO TECH</a>
+    <div class="sep"></div>
+    <span class="sub">Client Portal</span>
+  </div>
+  <div class="topbar-right">
+    <span class="demo-badge">Interactive Mock-up</span>
+    <a href="/" class="back">← Back to Pitch</a>
+    <a href="/model" class="back">Financial Model</a>
+  </div>
+</div>
+
+<div class="shell">
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sec-label">Main</div>
+    <a class="sidebar-item active"><span class="icon">📊</span> Dashboard</a>
+    <a class="sidebar-item"><span class="icon">💰</span> Transactions <span class="badge-count">12</span></a>
+    <a class="sidebar-item"><span class="icon">📤</span> Disbursements</a>
+    <a class="sidebar-item"><span class="icon">📥</span> Collections</a>
+    <a class="sidebar-item"><span class="icon">👥</span> Recipients</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sec-label">Finance</div>
+    <a class="sidebar-item"><span class="icon">📑</span> Invoices <span class="badge-count">3</span></a>
+    <a class="sidebar-item"><span class="icon">💳</span> Payroll</a>
+    <a class="sidebar-item"><span class="icon">📋</span> Expense Cards</a>
+    <a class="sidebar-item"><span class="icon">🔗</span> Payment Links</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sec-label">Tools</div>
+    <a class="sidebar-item"><span class="icon">📈</span> Analytics</a>
+    <a class="sidebar-item"><span class="icon">⚙️</span> Settings</a>
+    <a class="sidebar-item"><span class="icon">🔑</span> API Keys</a>
+  </div>
+  <div class="sidebar-user">
+    <div class="avatar">MC</div>
+    <div>
+      <div class="name">Maputo Corp</div>
+      <div class="role">Enterprise Plan</div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<div class="main">
+
+  <div class="page-title">
+    <h1>Dashboard</h1>
+    <div class="date">Mar 05, 2026</div>
+  </div>
+
+  <!-- Alert -->
+  <div class="alert-banner">
+    <span class="alert-icon">🔔</span>
+    <span><strong>3 disbursements</strong> require maker/checker approval before 5:00 PM today.</span>
+    <span class="dismiss" onclick="this.parentElement.style.display='none'">×</span>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">Total Balance</span>
+        <span class="kpi-icon">💰</span>
+      </div>
+      <div class="kpi-val">$284,530</div>
+      <div class="kpi-change up">↑ 12.4% vs last month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">Monthly Collections</span>
+        <span class="kpi-icon">📥</span>
+      </div>
+      <div class="kpi-val">$67,280</div>
+      <div class="kpi-change up">↑ 8.2% vs last month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">Monthly Disbursements</span>
+        <span class="kpi-icon">📤</span>
+      </div>
+      <div class="kpi-val">$41,650</div>
+      <div class="kpi-change up">↑ 3.7% vs last month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">Active Recipients</span>
+        <span class="kpi-icon">👥</span>
+      </div>
+      <div class="kpi-val">1,247</div>
+      <div class="kpi-change up">↑ 46 new this month</div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <a class="qa-btn">
+      <div class="qa-icon" style="background:rgba(252,63,29,0.1)">📤</div>
+      <div>
+        <div class="qa-label">Send Payment</div>
+        <div class="qa-desc">Single or bulk disbursement</div>
+      </div>
+    </a>
+    <a class="qa-btn">
+      <div class="qa-icon" style="background:rgba(16,185,129,0.1)">📥</div>
+      <div>
+        <div class="qa-label">Request Payment</div>
+        <div class="qa-desc">Create invoice or payment link</div>
+      </div>
+    </a>
+    <a class="qa-btn">
+      <div class="qa-icon" style="background:rgba(59,130,246,0.1)">💳</div>
+      <div>
+        <div class="qa-label">Run Payroll</div>
+        <div class="qa-desc">Process salary disbursements</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Two Col: Transactions + Activity -->
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-header">
+        <h2>Recent Transactions</h2>
+        <a href="#" class="view-all">View All →</a>
+      </div>
+      <table class="txn-table">
+        <thead>
+          <tr><th>Description</th><th>Status</th><th>Date</th><th>Amount</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="txn-desc">Salary Disbursement — March</div>
+              <div class="txn-id">TXN-2026-0305-001</div>
+            </td>
+            <td><span class="status processing">Processing</span></td>
+            <td>Mar 05</td>
+            <td style="color:var(--rose)">-$23,450</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="txn-desc">Collection — Techserv Moçambique</div>
+              <div class="txn-id">TXN-2026-0304-018</div>
+            </td>
+            <td><span class="status completed">Completed</span></td>
+            <td>Mar 04</td>
+            <td style="color:var(--green)">+$8,200</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="txn-desc">Supplier Payment — Matola Logistics</div>
+              <div class="txn-id">TXN-2026-0304-012</div>
+            </td>
+            <td><span class="status completed">Completed</span></td>
+            <td>Mar 04</td>
+            <td style="color:var(--rose)">-$4,780</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="txn-desc">QR Collection — POS Terminal #7</div>
+              <div class="txn-id">TXN-2026-0303-044</div>
+            </td>
+            <td><span class="status completed">Completed</span></td>
+            <td>Mar 03</td>
+            <td style="color:var(--green)">+$1,340</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="txn-desc">Invoice #INV-0291 — Gov. Ministry</div>
+              <div class="txn-id">TXN-2026-0303-028</div>
+            </td>
+            <td><span class="status pending">Pending</span></td>
+            <td>Mar 03</td>
+            <td style="color:var(--green)">+$15,600</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="txn-desc">Bulk Disbursement — Agent Commission</div>
+              <div class="txn-id">TXN-2026-0302-009</div>
+            </td>
+            <td><span class="status completed">Completed</span></td>
+            <td>Mar 02</td>
+            <td style="color:var(--rose)">-$6,120</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <h2>Activity</h2>
+      </div>
+      <div class="activity-list">
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--amber)"></div>
+          <div>
+            <div class="act-text"><strong>Approval needed</strong> — 3 scheduled disbursements awaiting checker review</div>
+            <div class="act-time">10 min ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--green)"></div>
+          <div>
+            <div class="act-text"><strong>Payment received</strong> — $8,200 from Techserv Moçambique via M-Pesa</div>
+            <div class="act-time">1 hr ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--blue)"></div>
+          <div>
+            <div class="act-text"><strong>Payroll scheduled</strong> — March salary run queued for 247 employees</div>
+            <div class="act-time">3 hrs ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--green)"></div>
+          <div>
+            <div class="act-text"><strong>Invoice paid</strong> — INV-0288 settled by Beira Trading Co.</div>
+            <div class="act-time">5 hrs ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--purple)"></div>
+          <div>
+            <div class="act-text"><strong>New recipient</strong> — Nampula Supplies added to disbursement list</div>
+            <div class="act-time">Yesterday</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--green)"></div>
+          <div>
+            <div class="act-text"><strong>Bulk complete</strong> — 182 agent commission payments disbursed successfully</div>
+            <div class="act-time">Yesterday</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Monthly Volume Chart + Active Modules -->
+  <div class="two-col">
+    <div class="panel">
+      <div class="mini-chart">
+        <h3>Monthly Transaction Volume (6 months)</h3>
+        <div class="chart-bars" id="volume-chart"></div>
+        <div class="chart-total">
+          <div class="ct-val">$598,420</div>
+          <div class="ct-label">6-Month Total Volume</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modules-section" style="margin-bottom:0">
+      <h2>Active Modules</h2>
+      <div class="modules-grid">
+        <div class="module-card">
+          <div class="mod-active-dot"></div>
+          <div class="mod-icon">🏢</div>
+          <div class="mod-name">Corporate Portal</div>
+          <div class="mod-status active">Active</div>
+        </div>
+        <div class="module-card">
+          <div class="mod-active-dot"></div>
+          <div class="mod-icon">📱</div>
+          <div class="mod-name">POS & Payments</div>
+          <div class="mod-status active">Active</div>
+        </div>
+        <div class="module-card">
+          <div class="mod-active-dot"></div>
+          <div class="mod-icon">💳</div>
+          <div class="mod-name">Card Issuing</div>
+          <div class="mod-status active">Active</div>
+        </div>
+        <div class="module-card">
+          <div class="mod-icon">🏦</div>
+          <div class="mod-name">Lending</div>
+          <div class="mod-status available">Available</div>
+        </div>
+        <div class="module-card">
+          <div class="mod-icon">🌍</div>
+          <div class="mod-name">Cross-Border</div>
+          <div class="mod-status available">Available</div>
+        </div>
+        <div class="module-card">
+          <div class="mod-icon">💎</div>
+          <div class="mod-name">Digital Wallet</div>
+          <div class="mod-status available">Available</div>
+        </div>
+        <div class="module-card">
+          <div class="mod-icon">🏪</div>
+          <div class="mod-name">Agent Banking</div>
+          <div class="mod-status available">Available</div>
+        </div>
+        <div class="module-card">
+          <div class="mod-icon">📊</div>
+          <div class="mod-name">SME Portal</div>
+          <div class="mod-status available">Available</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="portal-footer">
+    <p>Vodacom Business × Yango Tech — Client Portal Mock-up — Not connected to live data</p>
+    <div class="foot-links">
+      <a href="/">Partnership Overview</a>
+      <a href="/model">Financial Model</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+// Render volume chart
+const months = [
+  { label:'Oct', val:72400 },
+  { label:'Nov', val:81200 },
+  { label:'Dec', val:94800 },
+  { label:'Jan', val:103500 },
+  { label:'Feb', val:112300 },
+  { label:'Mar', val:134220 }
+];
+const maxV = Math.max(...months.map(m => m.val));
+const chart = document.getElementById('volume-chart');
+chart.innerHTML = months.map(m => {
+  const h = Math.max(4, (m.val / maxV) * 100);
+  const color = m.label === 'Mar' ? 'var(--red)' : 'var(--blue)';
+  return `<div class="chart-bar-wrap">
+    <div class="chart-bar" style="height:${h}%;background:${color}" title="$${(m.val/1000).toFixed(0)}K"></div>
+    <div class="chart-bar-label">${m.label}</div>
+  </div>`;
+}).join('');
+</script>
+</body>
+</html>
