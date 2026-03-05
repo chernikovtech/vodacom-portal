@@ -157,7 +157,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg) !important; color:
 .chart-total .ct-label { font-size:0.62rem; color:var(--t3); text-transform:uppercase; letter-spacing:1px; margin-top:0.1rem; }
 
 /* === FOOTER === */
-.portal-footer { padding:1.5rem 2.5rem; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.portal-footer { padding:1.5rem 2.5rem 3.5rem; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
 .portal-footer p { font-size:0.7rem; color:var(--t3); }
 .portal-footer .foot-links { display:flex; gap:1.5rem; }
 .portal-footer .foot-links a { font-size:0.7rem; color:var(--t3); text-decoration:none; transition:color 0.2s; }
@@ -176,9 +176,71 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg) !important; color:
 @media (max-width:600px) {
   .kpi-grid { grid-template-columns:1fr; }
 }
+
+/* === WATERMARK OVERLAY === */
+.watermark-overlay {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events:none; z-index:9999;
+  background:repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 180px,
+    rgba(252,63,29,0.03) 180px,
+    rgba(252,63,29,0.03) 182px
+  );
+  overflow:hidden;
+}
+.watermark-text {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%) rotate(-35deg);
+  font-family:'Space Mono',monospace; font-size:6rem; font-weight:700;
+  color:rgba(252,63,29,0.07); white-space:nowrap; letter-spacing:0.3em;
+  text-transform:uppercase; user-select:none;
+}
+.watermark-text-sm {
+  position:absolute; font-family:'Space Mono',monospace;
+  font-size:1.8rem; font-weight:700;
+  color:rgba(252,63,29,0.05); white-space:nowrap; letter-spacing:0.2em;
+  text-transform:uppercase; user-select:none;
+  transform:rotate(-35deg);
+}
+
+/* === STICKY DISCLAIMER BAR === */
+.disclaimer-bar {
+  position:fixed; bottom:0; left:0; width:100%; z-index:10000;
+  background:rgba(252,63,29,0.95); backdrop-filter:blur(10px);
+  padding:0.6rem 2rem; display:flex; align-items:center; justify-content:center; gap:0.8rem;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.4);
+}
+.disclaimer-bar .disc-icon { font-size:1.1rem; }
+.disclaimer-bar .disc-text { font-size:0.78rem; font-weight:600; color:white; letter-spacing:0.3px; }
+.disclaimer-bar .disc-text strong { text-transform:uppercase; letter-spacing:1px; }
+.disclaimer-bar .disc-close {
+  margin-left:1rem; background:rgba(255,255,255,0.2); border:none; color:white;
+  width:24px; height:24px; border-radius:50%; cursor:pointer; font-size:1rem;
+  display:flex; align-items:center; justify-content:center; transition:background 0.2s;
+}
+.disclaimer-bar .disc-close:hover { background:rgba(255,255,255,0.35); }
 </style>
 </head>
 <body>
+
+<!-- Watermark overlay -->
+<div class="watermark-overlay">
+  <div class="watermark-text">EXAMPLE</div>
+  <div class="watermark-text-sm" style="top:12%;left:5%">EXAMPLE DATA</div>
+  <div class="watermark-text-sm" style="top:28%;left:60%">NOT REAL</div>
+  <div class="watermark-text-sm" style="top:55%;left:15%">MOCK-UP ONLY</div>
+  <div class="watermark-text-sm" style="top:72%;left:55%">EXAMPLE DATA</div>
+  <div class="watermark-text-sm" style="top:88%;left:25%">NOT REAL</div>
+</div>
+
+<!-- Sticky disclaimer bar -->
+<div class="disclaimer-bar" id="disclaimer-bar">
+  <span class="disc-icon">⚠</span>
+  <span class="disc-text"><strong>Example mock-up</strong> — All data, numbers, and transactions shown are fictional examples for demonstration purposes only. This is not a final product.</span>
+  <button class="disc-close" onclick="document.getElementById('disclaimer-bar').style.display='none'" title="Dismiss">×</button>
+</div>
 
 <div class="topbar">
   <div class="brand">
